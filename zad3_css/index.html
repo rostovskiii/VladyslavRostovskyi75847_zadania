@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="red.css">
+</head>
+<body>
+    <div class="bg-scene" aria-hidden="true">
+        <div class="bg-mesh"></div>
+        <div class="bg-glow bg-glow--1"></div>
+        <div class="bg-glow bg-glow--2"></div>
+        <div class="bg-glow bg-glow--3"></div>
+        <div class="bg-grid"></div>
+        <div class="bg-beam"></div>
+        <div class="bg-vignette"></div>
+        <div class="bg-noise"></div>
+    </div>
+
+    <header class="hero">
+        <div class="container hero__inner">
+            <div class="hero__text">
+                <p class="hero__eyebrow">Portfolio / CV</p>
+                <h1 class="hero__title">Vladyslav Rostovskyi</h1>
+                <p class="hero__role">Frontend Developer</p>
+                <p class="hero__tagline">Nowoczesne, responsywne interfejsy z dbałością o detale i wydajność.</p>
+                <button type="button" class="btn btn--theme-toggle" id="themeToggleBtn">Switch to green theme</button>
+            </div>
+            <div class="hero__visual">
+                <div class="hero__frame">
+                    <img src="deko.jpg" alt="Moje zdjęcie" class="profile-img" width="280" height="280">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container main-grid">
+            <section class="card card--contact reveal" id="kontakt">
+                <h2 class="section-title"><span class="section-title__icon" aria-hidden="true"></span>Kontakt</h2>
+                <ul class="contact-list">
+                    <li>
+                        <span class="contact-list__label">E-mail</span>
+                        <a href="mailto:vladyslavrostovskyi@gmail.com">vladyslavrostovskyi@gmail.com</a>
+                    </li>
+                    <li>
+                        <span class="contact-list__label">Telefon</span>
+                        <a href="tel:+48883550955">+48 883 550 955</a>
+                    </li>
+                    <li>
+                        <span class="contact-list__label">Miasto</span>
+                        <span>Warszawa</span>
+                    </li>
+                </ul>
+                <div class="social-links">
+                    <a href="https://github.com/rostovskiii" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">
+                        <i class="material-icons" aria-hidden="true">code</i> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/vladyslav-rostovskyi-2a80523b9/" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+                        <i class="material-icons" aria-hidden="true">people</i> LinkedIn
+                    </a>
+                </div>
+            </section>
+
+            <section class="card reveal">
+                <h2 class="section-title"><span class="section-title__icon" aria-hidden="true"></span>O mnie</h2>
+                <p class="lead">Jestem pasjonatem programowania z doświadczeniem w tworzeniu nowoczesnych i responsywnych stron internetowych.</p>
+            </section>
+
+            <section class="card reveal">
+                <h2 class="section-title"><span class="section-title__icon" aria-hidden="true"></span>Umiejętności</h2>
+                <ul class="skill-tags">
+                    <li>
+                        <a href="https://pl.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener noreferrer">HTML5</a>
+                    </li>
+                    <li>
+                        <a href="https://pl.wikipedia.org/wiki/Kaskadowe_arkusze_styl%C3%B3w" target="_blank" rel="noopener noreferrer">CSS3</a>
+                    </li>
+                    <li>
+                        <a href="https://pl.wikipedia.org/wiki/JavaScript" target="_blank" rel="noopener noreferrer">JavaScript</a>
+                    </li>
+                    <li>
+                        <a href="https://pl.wikipedia.org/wiki/React.js" target="_blank" rel="noopener noreferrer">React</a>
+                    </li>
+                    <li>
+                        <a href="https://pl.wikipedia.org/wiki/Node.js" target="_blank" rel="noopener noreferrer">Node.js</a>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="card card--wide reveal">
+                <h2 class="section-title"><span class="section-title__icon" aria-hidden="true"></span>Doświadczenie</h2>
+                <ol class="timeline">
+                    <li class="timeline__item">
+                        <span class="timeline__dot" aria-hidden="true"></span>
+                        <div class="timeline__body">
+                            <h3>Frontend Developer — projekty freelance / B2B</h3>
+                            <p>2023 — obecnie · Tworzenie responsywnych stron i landingów (HTML, CSS, JavaScript, React), wdrażanie formularzy kontaktowych, dopracowanie UI pod Figmę oraz podstawowa optymalizacja wydajności i SEO technicznego.</p>
+                        </div>
+                    </li>
+                    <li class="timeline__item">
+                        <span class="timeline__dot" aria-hidden="true"></span>
+                        <div class="timeline__body">
+                            <h3>Stażysta Frontend — agencja interaktywna, Warszawa</h3>
+                            <p>2022 · Wsparcie zespołu przy wdrożeniach szablonów, poprawki stylów i komponentów w JavaScript, testy wyświetlania na różnych urządzeniach oraz pierwsze zadania przy prostych widokach w React.</p>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="card reveal">
+                <h2 class="section-title"><span class="section-title__icon" aria-hidden="true"></span>Edukacja</h2>
+                <p>Ukończyłem Vistula University na kierunku IT.</p>
+            </section>
+
+            <section class="card card--wide reveal">
+                <h2 class="section-title"><span class="section-title__icon" aria-hidden="true"></span>Projekty</h2>
+                <div class="project-grid">
+                    <article class="project-card">
+                        <h3>Panel analityczny — React</h3>
+                        <p>Dashboard z wykresami (np. sprzedaż / statystyki), filtrowaniem zakresu dat i tabelą podsumowań. Stan w React Hooks, responsywny layout i czytelna nawigacja między widokami.</p>
+                    </article>
+                    <article class="project-card">
+                        <h3>REST API + klient webowy — Node.js</h3>
+                        <p>Serwer w Express z endpointami CRUD, walidacją danych i prostą autoryzacją (JWT). Frontend łączy się z API i umożliwia przeglądanie oraz edycję rekordów w jednej aplikacji.</p>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 Moje CV</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
