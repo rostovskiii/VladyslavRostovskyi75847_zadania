@@ -1,0 +1,246 @@
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const revealEls = document.querySelectorAll(".reveal");
+const themeToggleBtn = document.querySelector("#themeToggleBtn");
+const skillsToggleBtn = document.querySelector("#skillsToggleBtn");
+const skillsSection = document.querySelector("#skillsSection");
+const themeStorageKey = "site-theme";
+const themeStylesheet = document.querySelector('link[rel="stylesheet"][href="red.css"], link[rel="stylesheet"][href="green.css"], link[rel="stylesheet"][href="style.css"]');
+const contactForm = document.querySelector("#contactForm");
+const formSummary = document.querySelector("#formSummary");
+
+function applyTheme(themeName) {
+    if (!themeStylesheet) return;
+
+    const stylesheetName = themeName === "green" ? "green.css" : "red.css";
+    themeStylesheet.setAttribute("href", stylesheetName);
+
+    if (themeToggleBtn) {
+        const nextThemeLabel = themeName === "red" ? "Switch to green theme" : "Switch to red theme";
+        themeToggleBtn.textContent = nextThemeLabel;
+    }
+}
+
+function initThemeToggle() {
+    const savedTheme = localStorage.getItem(themeStorageKey);
+    const initialTheme = savedTheme === "green" ? "green" : "red";
+    applyTheme(initialTheme);
+
+    if (!themeToggleBtn) return;
+
+    themeToggleBtn.addEventListener("click", () => {
+        const currentIsRed = themeStylesheet && themeStylesheet.getAttribute("href") === "red.css";
+        const nextTheme = currentIsRed ? "green" : "red";
+        applyTheme(nextTheme);
+        localStorage.setItem(themeStorageKey, nextTheme);
+    });
+}
+
+function initSectionToggle() {
+    if (!skillsToggleBtn || !skillsSection) return;
+
+    const updateButtonLabel = (isExpanded) => {
+        skillsToggleBtn.textContent = isExpanded ? 'Ukryj sekcję „Umiejętności”' : 'Pokaż sekcję „Umiejętności”';
+        skillsToggleBtn.setAttribute("aria-expanded", String(isExpanded));
+    };
+
+    const getIsExpanded = () => skillsSection.style.display !== "none";
+    updateButtonLabel(getIsExpanded());
+
+    skillsToggleBtn.addEventListener("click", () => {
+        const isExpanded = getIsExpanded();
+        skillsSection.style.display = isExpanded ? "none" : "";
+        updateButtonLabel(!isExpanded);
+    });
+}
+
+function initRevealToggle() {
+    if (!revealEls.length) return;
+
+    if (prefersReducedMotion) {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+        return;
+    }
+
+    const io = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                } else {
+                    entry.target.classList.remove("is-visible");
+                }
+            });
+        },
+        {
+            root: null,
+            rootMargin: "0px 0px -6% 0px",
+            threshold: [0, 0.06, 0.12],
+        }
+    );
+
+    revealEls.forEach((el) => io.observe(el));
+}
+
+initRevealToggle();
+initThemeToggle();
+initSectionToggle();
+
+function setFieldError(inputEl, errorEl, message) {
+    if (!inputEl || !errorEl) return;
+    inputEl.classList.toggle("is-invalid", Boolean(message));
+    inputEl.setAttribute("aria-invalid", message ? "true" : "false");
+    errorEl.textContent = message || "";
+}
+
+function normalizeText(value) {
+    return String(value ?? "").trim().replace(/\s+/g, " ");
+}
+
+function isEmailValid(value) {
+    const v = normalizeText(value);
+    if (!v) return false;
+    // Prosty, praktyczny regex (format nazwa@domena.tld)
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(v);
+}
+
+function containsDigit(value) {
+    return /\d/.test(String(value ?? ""));
+}
+
+function initContactForm() {
+    if (!contactForm) return;
+
+    const firstName = contactForm.querySelector("#firstName");
+    const lastName = contactForm.querySelector("#lastName");
+    const email = contactForm.querySelector("#email");
+    const message = contactForm.querySelector("#message");
+
+    const errorFirstName = document.querySelector("#error-firstName");
+    const errorLastName = document.querySelector("#error-lastName");
+    const errorEmail = document.querySelector("#error-email");
+    const errorMessage = document.querySelector("#error-message");
+
+    const clearSummary = () => {
+        if (!formSummary) return;
+        formSummary.hidden = true;
+        formSummary.textContent = "";
+        formSummary.classList.remove("form-summary--ok");
+    };
+
+    const showSummaryOk = (text) => {
+        if (!formSummary) return;
+        formSummary.hidden = false;
+        formSummary.textContent = text;
+        formSummary.classList.add("form-summary--ok");
+    };
+
+    const showSummaryError = (text) => {
+        if (!formSummary) return;
+        formSummary.hidden = false;
+        formSummary.textContent = text;
+        formSummary.classList.remove("form-summary--ok");
+    };
+
+    const clearAllErrors = () => {
+        setFieldError(firstName, errorFirstName, "");
+        setFieldError(lastName, errorLastName, "");
+        setFieldError(email, errorEmail, "");
+        setFieldError(message, errorMessage, "");
+        clearSummary();
+    };
+
+    const validate = () => {
+        clearSummary();
+        let isValid = true;
+
+        const firstNameValue = normalizeText(firstName?.value);
+        const lastNameValue = normalizeText(lastName?.value);
+        const emailValue = normalizeText(email?.value);
+        const messageValue = normalizeText(message?.value);
+
+        // required
+        if (!firstNameValue) {
+            setFieldError(firstName, errorFirstName, "Podaj imię.");
+            isValid = false;
+        } else if (containsDigit(firstNameValue)) {
+            setFieldError(firstName, errorFirstName, "Imię nie może zawierać cyfr.");
+            isValid = false;
+        } else {
+            setFieldError(firstName, errorFirstName, "");
+        }
+
+        if (!lastNameValue) {
+            setFieldError(lastName, errorLastName, "Podaj nazwisko.");
+            isValid = false;
+        } else if (containsDigit(lastNameValue)) {
+            setFieldError(lastName, errorLastName, "Nazwisko nie może zawierać cyfr.");
+            isValid = false;
+        } else {
+            setFieldError(lastName, errorLastName, "");
+        }
+
+        if (!emailValue) {
+            setFieldError(email, errorEmail, "Podaj adres e-mail.");
+            isValid = false;
+        } else if (!isEmailValid(emailValue)) {
+            setFieldError(email, errorEmail, "Podaj poprawny adres e-mail (np. nazwa@domena.pl).");
+            isValid = false;
+        } else {
+            setFieldError(email, errorEmail, "");
+        }
+
+        if (!messageValue) {
+            setFieldError(message, errorMessage, "Wpisz wiadomość.");
+            isValid = false;
+        } else {
+            setFieldError(message, errorMessage, "");
+        }
+
+        return isValid;
+    };
+
+    contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const ok = validate();
+        if (!ok) {
+            showSummaryError("Popraw błędy w formularzu i spróbuj ponownie.");
+            const firstInvalid = contactForm.querySelector(".is-invalid");
+            if (firstInvalid && typeof firstInvalid.focus === "function") firstInvalid.focus();
+            return;
+        }
+
+        showSummaryOk("Formularz poprawny. Dane zostały sprawdzone po stronie przeglądarki (bez backendu).");
+        contactForm.reset();
+        clearAllErrors();
+    });
+
+    contactForm.addEventListener("reset", () => {
+        window.setTimeout(() => {
+            clearAllErrors();
+        }, 0);
+    });
+
+    // Walidacja w trakcie pisania (bez „krzyczenia” od razu: dopiero po dotknięciu pola)
+    const bindLiveValidation = (inputEl, errorEl, validateFn) => {
+        if (!inputEl) return;
+        const state = { touched: false };
+
+        inputEl.addEventListener("blur", () => {
+            state.touched = true;
+            validateFn();
+        });
+
+        inputEl.addEventListener("input", () => {
+            if (!state.touched) return;
+            validateFn();
+        });
+    };
+
+    bindLiveValidation(firstName, errorFirstName, validate);
+    bindLiveValidation(lastName, errorLastName, validate);
+    bindLiveValidation(email, errorEmail, validate);
+    bindLiveValidation(message, errorMessage, validate);
+}
+
+initContactForm();
