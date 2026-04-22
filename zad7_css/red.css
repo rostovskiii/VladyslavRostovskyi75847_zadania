@@ -1,0 +1,25 @@
+@import url("style.css");
+
+:root {
+    --accent-a: #ef4444;
+    --accent-b: #dc2626;
+    --accent-c: #fca5a5;
+}
+
+body {
+    background-color: #140707;
+}
+
+.card {
+    border: 2px solid rgba(239, 68, 68, 0.35);
+    border-radius: 14px;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+}
+
+.project-card {
+    background: rgba(127, 29, 29, 0.18);
+}
